@@ -1,6 +1,7 @@
 import { GlobalKeyboardListener } from 'node-global-key-listener';
 import Denon from './Denon.mjs';
 import { initLogiled, blackenKeys, highlightKeys} from "./services/lightService.mjs";
+import ClockService from "./services/clockService.mjs";
 
 const VOLUME_UP = 'VOLUME_UP';
 const VOLUME_DOWN = 'VOLUME_DOWN';
@@ -81,8 +82,11 @@ const handleScrollWheel = (e) => {
     return [VOLUME_UP, VOLUME_DOWN, F24].includes(name);
 }
 
+const clockService = new ClockService();
+
 denon.connect().then(() => {
     denon.command('MV?');
     initLogiled();
+    clockService.start();
     keyboardListener.addListener(handleScrollWheel);
 });

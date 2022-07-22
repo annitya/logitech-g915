@@ -19,6 +19,13 @@ export const initLogiled = () => {
     logiled.saveCurrentLighting();
 }
 
+export const blackenKey = (keyName) => logiled.setLightingForKeyWithKeyName({
+    keyName,
+    redPercentage: 0,
+    greenPercentage: 0,
+    bluePercentage: 0
+})
+
 export const blackenKeys = (first, second) => {
     const excludeKeys = [
         keyMap[first],
@@ -26,23 +33,17 @@ export const blackenKeys = (first, second) => {
     ];
 
     const restoreKeys = keyMap.filter(key => !excludeKeys.includes(key));
-
-    restoreKeys.forEach(keyName => logiled.setLightingForKeyWithKeyName({
-        keyName,
-        redPercentage: 0,
-        greenPercentage: 0,
-        bluePercentage: 0
-    }));
+    restoreKeys.forEach(blackenKey);
 }
 
-const blueWithKey = (keyName, bluePercentage) => ({
+export const blueWithKey = (keyName, bluePercentage) => ({
     keyName,
     redPercentage: 0,
     greenPercentage: 0,
     bluePercentage
 });
 
-const redWithKey = (keyName) => ({
+export const redWithKey = (keyName) => ({
     keyName,
     redPercentage: 100,
     greenPercentage: 0,
