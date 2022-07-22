@@ -59,7 +59,7 @@ const greenWithKey = (keyName, greenPercentage) => ({
 export const highlightKeys = (first, second, hasThird) => {
     const firstKey = keyMap[first];
     const secondKey = keyMap[second];
-console.log(second);
+
     const colorPercentage = hasThird ? 50 : 100;
     // Only one key to display both values.
     if (first === second) {

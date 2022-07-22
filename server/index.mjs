@@ -82,6 +82,7 @@ const handleScrollWheel = (e) => {
 }
 
 denon.connect().then(() => {
+    denon.command('MV?');
     initLogiled();
     keyboardListener.addListener(handleScrollWheel);
 });
