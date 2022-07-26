@@ -1,5 +1,5 @@
-import faultyImport from 'logiled';
-const logiled = faultyImport.default;
+import logiled from 'logiled';
+import { KeyName } from "logiled/dist/keyname";
 
 const keyMap = [
     logiled.KeyName.NUM_ZERO,
@@ -19,14 +19,14 @@ export const initLogiled = () => {
     logiled.saveCurrentLighting();
 }
 
-export const blackenKey = (keyName) => logiled.setLightingForKeyWithKeyName({
+export const blackenKey = (keyName: KeyName) => logiled.setLightingForKeyWithKeyName({
     keyName,
     redPercentage: 0,
     greenPercentage: 0,
     bluePercentage: 0
 })
 
-export const blackenKeys = (first, second) => {
+export const blackenKeys = (first: number, second: number) => {
     const excludeKeys = [
         keyMap[first],
         keyMap[second]
@@ -36,28 +36,28 @@ export const blackenKeys = (first, second) => {
     restoreKeys.forEach(blackenKey);
 }
 
-export const blueWithKey = (keyName, bluePercentage) => ({
+export const blueWithKey = (keyName: KeyName, bluePercentage: number) => ({
     keyName,
     redPercentage: 0,
     greenPercentage: 0,
     bluePercentage
 });
 
-export const redWithKey = (keyName) => ({
+export const redWithKey = (keyName: KeyName) => ({
     keyName,
     redPercentage: 100,
     greenPercentage: 0,
     bluePercentage: 0
 })
 
-const greenWithKey = (keyName, greenPercentage) => ({
+export const greenWithKey = (keyName: KeyName, greenPercentage: number) => ({
     keyName,
     redPercentage: 0,
     greenPercentage,
     bluePercentage: 0
 })
 
-export const highlightKeys = (first, second, hasThird) => {
+export const highlightKeys = (first: number, second: number, hasThird: boolean) => {
     const firstKey = keyMap[first];
     const secondKey = keyMap[second];
 

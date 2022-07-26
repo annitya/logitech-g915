@@ -1,7 +1,7 @@
-import { GlobalKeyboardListener } from 'node-global-key-listener';
-import Denon from './Denon.mjs';
-import { initLogiled, blackenKeys, highlightKeys} from "./services/lightService.mjs";
-import ClockService from "./services/clockService.mjs";
+import { GlobalKeyboardListener, IGlobalKeyEvent } from 'node-global-key-listener';
+import Denon from './Denon';
+import { initLogiled, blackenKeys, highlightKeys} from './services/lightService';
+import ClockService from "./services/clockService";
 
 const VOLUME_UP = 'VOLUME_UP';
 const VOLUME_DOWN = 'VOLUME_DOWN';
@@ -12,30 +12,30 @@ let running = false;
 const start = () => running = true;
 const stop = () => running = false;
 
-const getNumberParts = (denonVolume) => {
+const getNumberParts = (denonVolume: Buffer): [number, number, boolean] => {
     const denonString = denonVolume.toString();
-    let number;
+    let volume: number;
 
     if (denonString.length === 5) {
-        number = denonString.substring(2, 4);
+        volume = +denonString.substring(2, 4);
     } else {
-        number = denonString.substring(2, 5) / 10;
+        volume = +denonString.substring(2, 5) / 10;
     }
 
-    number = (80 - number).toString();
+    const volumeString = (80 - volume).toString();
 
-    const first = number.substring(0, 1);
-    let second = number.substring(1, 2);
-    const hasThird = number.length === 4;
+    const first = volumeString.substring(0, 1);
+    let second = volumeString.substring(1, 2);
+    const hasThird = volumeString.length === 4;
     // Round up.
     if (hasThird) {
         second = (+second + 1).toString();
     }
 
-    return [first, second, hasThird];
+    return [+first, +second, hasThird];
 }
 
-const onData = (denonVolume) => {
+const onData = (denonVolume: Buffer) => {
     stop();
 
     if (denonVolume.includes('MAX')) {
@@ -55,7 +55,7 @@ if (process.env.NODE_ENV === 'DEBUG') {
     denon.logData();
 }
 
-const runCommand = (command) => {
+const runCommand = (command: string) => {
     if (running) {
         return true;
     }
@@ -66,7 +66,7 @@ const runCommand = (command) => {
     return true;
 }
 
-const handleScrollWheel = (e) => {
+const handleScrollWheel = (e: IGlobalKeyEvent) => {
     const { rawKey } = e;
     const { name } = rawKey;
 
@@ -89,4 +89,5 @@ denon.connect().then(() => {
     initLogiled();
     clockService.start();
     keyboardListener.addListener(handleScrollWheel);
+    console.log('ok');
 });

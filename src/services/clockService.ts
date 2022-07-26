@@ -1,6 +1,5 @@
-import faultyImport from 'logiled';
-import {blackenKey, blueWithKey, redWithKey} from "./lightService.mjs";
-const logiled = faultyImport.default;
+import logiled from 'logiled';
+import { blackenKey, blueWithKey, greenWithKey, redWithKey } from './lightService';
 
 const hourKeyMap = [
     logiled.KeyName.F12,
@@ -33,7 +32,7 @@ const minuteKeyMap = [
 export default class ClockService {
     start() {
         const now = new Date();
-        let hours = now.toLocaleString('en-US', { hour: 'numeric', hour12: true }).replace(' PM', '').replace(' AM', '');
+        let hours = +now.toLocaleString('en-US', { hour: 'numeric', hour12: true }).replace(' PM', '').replace(' AM', '');
         const minutes = now.getMinutes();
 
         if (+hours === 12) {
@@ -43,23 +42,23 @@ export default class ClockService {
         this.setHours(hours);
         this.setMinutes(minutes);
 
-        setTimeout(() => this.start(), 1000 * 59);
+        setTimeout(() => this.start(), 1000 * 15);
     }
 
-    setHours(hours) {
-        const restoreKeys = hourKeyMap.filter((value, key) => key !== +hours);
+    setHours(hours: number) {
+        const restoreKeys = hourKeyMap.filter((_, key) => key !== +hours);
         restoreKeys.forEach(blackenKey);
 
         const highlightKey = hourKeyMap[hours];
-        redWithKey(highlightKey);
+        logiled.setLightingForKeyWithKeyName(redWithKey(highlightKey));
     }
 
-    setMinutes(minutes) {
-        const [first, second] = minutes.toString().split('');
+    setMinutes(minutes: number) {
+        const [first, second] = minutes.toString().split('').map(part => +part);
         const firstKey = minuteKeyMap[first];
         const secondKey = second ? minuteKeyMap[second] : false;
 
-        const restoreKeys = minuteKeyMap.filter((value, key) => {
+        const restoreKeys = minuteKeyMap.filter((_, key) => {
             if (!secondKey) {
                 return key !== +first;
             }
@@ -75,7 +74,7 @@ export default class ClockService {
             logiled.setLightingForKeyWithKeyName(redWithKey(firstKey));
 
             if (secondKey) {
-                logiled.setLightingForKeyWithKeyName(redWithKey(secondKey));
+                logiled.setLightingForKeyWithKeyName(greenWithKey(secondKey, 100));
             }
         }
     }
