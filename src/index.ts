@@ -1,11 +1,16 @@
-import { initLogiled } from './services/NumericDisplay';
+import { LogiLedInit, LogiLedSaveCurrentLighting } from 'logitech-led';
 import VolumeService from './services/VolumeService';
-import ClockService from './services/ClockService';
 
 const volumeService = new VolumeService();
-const clockService = new ClockService();
 
 volumeService.init().then(() => {
-    initLogiled();
-    clockService.continouslyUpdate();
+    const result = LogiLedInit();
+
+    if (!result) {
+        console.error('Failed to init.');
+        process.exit(1);
+    }
+
+    LogiLedSaveCurrentLighting();
+    // clockService.continouslyUpdate();
 })

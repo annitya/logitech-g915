@@ -1,23 +1,24 @@
 import Denon from '../Denon';
 import NumericDisplay from "./NumericDisplay";
-import logiled from "logiled";
-import { GlobalKeyboardListener, IGlobalKeyEvent } from 'node-global-key-listener';
+import { IGlobalKeyEvent } from 'node-global-key-listener';
+import keyboardListener from './keyboardService';
+import { KeyName } from '../KeyName';
 
 const VOLUME_UP = 'VOLUME_UP';
 const VOLUME_DOWN = 'VOLUME_DOWN';
 const F24 = 'F24';
 
 const keyMap = [
-    logiled.KeyName.NUM_ZERO,
-    logiled.KeyName.NUM_ONE,
-    logiled.KeyName.NUM_TWO,
-    logiled.KeyName.NUM_THREE,
-    logiled.KeyName.NUM_FOUR,
-    logiled.KeyName.NUM_FIVE,
-    logiled.KeyName.NUM_SIX,
-    logiled.KeyName.NUM_SEVEN,
-    logiled.KeyName.NUM_EIGHT,
-    logiled.KeyName.NUM_NINE
+    KeyName.NUM_ZERO,
+    KeyName.NUM_ONE,
+    KeyName.NUM_TWO,
+    KeyName.NUM_THREE,
+    KeyName.NUM_FOUR,
+    KeyName.NUM_FIVE,
+    KeyName.NUM_SIX,
+    KeyName.NUM_SEVEN,
+    KeyName.NUM_EIGHT,
+    KeyName.NUM_NINE
 ];
 
 const getNumberParts = (denonVolume: Buffer): [number, number, boolean] => {
@@ -47,7 +48,6 @@ export default class VolumeService {
     running: boolean = false;
     denon: Denon;
     volumeDisplay: NumericDisplay;
-    keyboardListener: GlobalKeyboardListener;
 
     constructor() {
         this.denon = new Denon(this.onData);
@@ -57,8 +57,7 @@ export default class VolumeService {
             this.denon.logData();
         }
 
-        this.keyboardListener = new GlobalKeyboardListener();
-        this.keyboardListener.addListener(this.handleScrollWheel);
+        keyboardListener.addListener(this.handleScrollWheel);
     }
 
     async init() {

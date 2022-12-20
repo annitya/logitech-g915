@@ -1,10 +1,5 @@
-import logiled from 'logiled';
-import { KeyName } from "logiled/dist/keyname";
-
-export const initLogiled = () => {
-    logiled.init();
-    logiled.saveCurrentLighting();
-}
+import { LogiLedSetLightingForKeyWithScanCode } from 'logitech-led';
+import { KeyName } from '../KeyName';
 
 export default class NumericDisplay {
     keyMap: KeyName[];
@@ -42,31 +37,31 @@ export default class NumericDisplay {
         restoreKeys.forEach(this.blackKey);
     }
 
-    blackKey = (keyName: KeyName) => logiled.setLightingForKeyWithKeyName({
+    blackKey = (keyName: KeyName) => LogiLedSetLightingForKeyWithScanCode(
         keyName,
-        redPercentage: 0,
-        greenPercentage: 0,
-        bluePercentage: 0
-    });
+        0,
+        0,
+        0
+    );
 
-    blueKey = (keyName: KeyName, bluePercentage: number) => logiled.setLightingForKeyWithKeyName({
+    blueKey = (keyName: KeyName, bluePercentage: number) => LogiLedSetLightingForKeyWithScanCode(
         keyName,
-        redPercentage: 0,
-        greenPercentage: 0,
+        0,
+        0,
         bluePercentage
-    });
+    );
 
-    redKey = (keyName: KeyName) => logiled.setLightingForKeyWithKeyName({
+    redKey = (keyName: KeyName) => LogiLedSetLightingForKeyWithScanCode(
         keyName,
-        redPercentage: 100,
-        greenPercentage: 0,
-        bluePercentage: 0
-    });
+        100,
+        0,
+        0
+    );
 
-    greenKey = (keyName: KeyName, greenPercentage: number) => logiled.setLightingForKeyWithKeyName({
+    greenKey = (keyName: KeyName, greenPercentage: number) => LogiLedSetLightingForKeyWithScanCode(
         keyName,
-        redPercentage: 0,
+        0,
         greenPercentage,
-        bluePercentage: 0
-    });
+        0
+    );
 }

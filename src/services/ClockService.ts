@@ -1,32 +1,32 @@
-import logiled from 'logiled';
 import NumericDisplay from './NumericDisplay';
+import { KeyName } from '../KeyName';
 
 const hourKeyMap = [
-    logiled.KeyName.F12,
-    logiled.KeyName.F1,
-    logiled.KeyName.F2,
-    logiled.KeyName.F3,
-    logiled.KeyName.F4,
-    logiled.KeyName.F5,
-    logiled.KeyName.F6,
-    logiled.KeyName.F7,
-    logiled.KeyName.F8,
-    logiled.KeyName.F9,
-    logiled.KeyName.F10,
-    logiled.KeyName.F11,
+    KeyName.F12,
+    KeyName.F1,
+    KeyName.F2,
+    KeyName.F3,
+    KeyName.F4,
+    KeyName.F5,
+    KeyName.F6,
+    KeyName.F7,
+    KeyName.F8,
+    KeyName.F9,
+    KeyName.F10,
+    KeyName.F11,
 ]
 
 const minuteKeyMap = [
-    logiled.KeyName.ZERO,
-    logiled.KeyName.ONE,
-    logiled.KeyName.TWO,
-    logiled.KeyName.THREE,
-    logiled.KeyName.FOUR,
-    logiled.KeyName.FIVE,
-    logiled.KeyName.SIX,
-    logiled.KeyName.SEVEN,
-    logiled.KeyName.EIGHT,
-    logiled.KeyName.NINE
+    KeyName.ZERO,
+    KeyName.ONE,
+    KeyName.TWO,
+    KeyName.THREE,
+    KeyName.FOUR,
+    KeyName.FIVE,
+    KeyName.SIX,
+    KeyName.SEVEN,
+    KeyName.EIGHT,
+    KeyName.NINE
 ];
 
 export default class ClockService {
